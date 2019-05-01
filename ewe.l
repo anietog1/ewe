@@ -28,16 +28,17 @@
 ")" { return RPAREN; }
 "," { return COMMA;  }
 
-"if"   { return IF; }
+"if"   { return IF;   }
 "then" { return THEN; }
 "goto" { return GOTO; }
 
-"halt"  { return HALT; }
+"halt"  { return HALT;  }
 "break" { return BREAK; }
 
-"M" { return M; }
-"[" { return LBRACKET; }
-"]" { return RBRACKET; }
+"equ" { return EQU; }
+"M"   { return M;   }
+"["   { return LBRACKET; }
+"]"   { return RBRACKET; }
 
 [:digit:]+ { return INTEGER; }
 [_[:alnum:]][_[:alnum:]]* { return IDENTIFIER; }

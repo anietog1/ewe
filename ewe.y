@@ -9,7 +9,7 @@
 %token LPAREN "(" RPAREN ")" COMMA ","
 %token IF "if" THEN "then" GOTO "goto"
 %token HALT "halt" BREAK "break"
-%token M "M" LBRACKET "[" RBRACKET "]"
+%token EQU "equ" M "M" LBRACKET "[" RBRACKET "]"
 
 %%
 
