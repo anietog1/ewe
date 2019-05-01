@@ -7,6 +7,7 @@
 %token GTEQ ">=" LTEQ "<=" DIFF "<>" GT ">" LT "<" EQ "="
 %token READINT "readInt" WRITEINT "writeInt" READSTR "readStr" WRITESTR "writeStr"
 %token LPAREN "(" RPAREN ")" COMMA ","
+%token IF "if" THEN "then" GOTO "goto"
 %token HALT "halt" BREAK "break"
 %token M "M" LBRACKET "[" RBRACKET "]"
 

@@ -28,6 +28,10 @@
 ")" { return RPAREN; }
 "," { return COMMA;  }
 
+"if"   { return IF; }
+"then" { return THEN; }
+"goto" { return GOTO; }
+
 "halt"  { return HALT; }
 "break" { return BREAK; }
 
