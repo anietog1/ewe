@@ -1,4 +1,3 @@
-
 %%
 
 "#"[^\n]* /* ignore comments */
@@ -36,8 +35,8 @@
 "[" { return LBRACKET; }
 "]" { return RBRACKET; }
 
-[:digit:]+ { ; return INTEGER; }
-[_[:alnum:]][_[:alnum:]]* { ; return IDENTIFIER; }
-// \"[^\"]*\" { ; return STRING; }
+[:digit:]+ { return INTEGER; }
+[_[:alnum:]][_[:alnum:]]* { return IDENTIFIER; }
+\"([^\"]|\\\")*\" { return STRING; }
 
-. { }
+<<EOF>> { return EOF; }

@@ -1,12 +1,12 @@
 %token EOF
 %token IDENTIFIER
 %token INTEGER STRING
-%token COLON ":" ASSIGN ":="
 
+%token COLON ":" ASSIGN ":="
 %token ADD "+" SUB "-" MUL "*" DIV "/" MOD "%"
 %token GTEQ ">=" LTEQ "<=" DIFF "<>" GT ">" LT "<" EQ "="
 %token READINT "readInt" WRITEINT "writeInt" READSTR "readStr" WRITESTR "writeStr"
-%token  LPAREN "(" RPAREN ")" COMMA ","
+%token LPAREN "(" RPAREN ")" COMMA ","
 %token HALT "halt" BREAK "break"
 %token M "M" LBRACKET "[" RBRACKET "]"
 
