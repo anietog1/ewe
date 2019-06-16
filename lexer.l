@@ -1,3 +1,11 @@
+%option header-file="lexer.h"
+%option outfile="lexer.c"
+%option noyywrap
+
+%{
+  #include "parser.h"
+%}
+
 %%
 
 "#"[^\n]* /* ignore comments */
@@ -41,7 +49,7 @@
 "]"   { return RBRACKET; }
 
 [:digit:]+ { return INTEGER; }
-[_[:alnum:]][_[:alnum:]]* { return IDENTIFIER; }
-\"([^\"]|\\\")*\" { return STRING; }
+[_[:alpha:]][_[:alnum:]]* { return IDENTIFIER; }
+\"([^\"]|\\\")*\" { return STRING; } /* unfinished */
 
 <<EOF>> { return EOF; }
