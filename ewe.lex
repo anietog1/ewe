@@ -1,9 +1,5 @@
-%option header-file="lexer.h"
-%option outfile="lexer.c"
-%option noyywrap
-
 %{
-  #include "parser.h"
+  #include "y.tab.h"
 %}
 
 %%
@@ -13,6 +9,8 @@
 
 ":=" { return ASSIGN; }
 ":"  { return COLON;  }
+
+"PC" { return PC; }
 
 "+" { return ADD; }
 "-" { return SUB; }
@@ -49,7 +47,7 @@
 "]"   { return RBRACKET; }
 
 [:digit:]+ { return INTEGER; }
+\"[^\"]*\" { return STRING;  }
 [_[:alpha:]][_[:alnum:]]* { return IDENTIFIER; }
-\"([^\"]|\\\")*\" { return STRING; } /* unfinished */
 
 <<EOF>> { return EOF; }
