@@ -1,9 +1,10 @@
 %{
   #include <stdio.h>
   int yylex(void);
-  void yyerror(char*);
+  void yyerror(char *);
   int yywrap(void);
 %}
+
 %token PC IDENTIFIER
 %token INTEGER STRING
 

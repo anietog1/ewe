@@ -46,8 +46,9 @@
 "["   { return LBRACKET; }
 "]"   { return RBRACKET; }
 
-[:digit:]+ { return INTEGER; }
-\"[^\"]*\" { return STRING;  }
-[_[:alpha:]][_[:alnum:]]* { return IDENTIFIER; }
+[_a-zA-Z][_a-zA-Z]* { return IDENTIFIER; }
+
+[0-9]+ { return INTEGER; }
+\"[^\"]*\" { return STRING; }
 
 <<EOF>> { return EOF; }
