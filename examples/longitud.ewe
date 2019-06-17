@@ -1,0 +1,27 @@
+BOF:
+initialization:
+	zero := 0
+	one := 1
+	count := 0
+	#length is the max length of a string input
+	length := 10000
+	index := 6
+	readStr(str, length)
+
+cycle:
+	actual := M[index + 0]
+	if actual = zero then goto endcycle
+	   index := index + one
+	   count := count + one
+	   goto cycle
+endcycle:
+	writeInt(count)
+EOF: halt
+
+equ zero M[0]
+equ one M[1]
+equ count M[2]
+equ length M[3]
+equ actual M[4]
+equ index M[5]
+equ str M[6]

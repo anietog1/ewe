@@ -1,0 +1,21 @@
+BOF:
+
+readInt(a)
+readInt(b)
+readInt(c)
+
+if a<b then goto jump1
+ a := b
+jump1:
+
+if a<c then goto jump2
+ a := c
+jump2:
+
+writeInt(a)
+
+EOF: halt
+
+equ a M[0]
+equ b M[1]
+equ c M[2]

@@ -1,0 +1,33 @@
+BOF:
+initialization:
+	zero := 0
+	one := 1
+	count := 0
+	space := 32
+	index := 7
+	
+	#length indica el index maximo
+	length := 10000
+
+	readStr(str, length)
+cycle:
+	actual := M[index + 0]
+	if actual = zero then goto endcycle
+	   if actual <> space then goto continue
+	      #writeStr(actual)
+	      count := count + one
+	      
+continue:  index := index + one
+	   goto cycle
+	   
+endcycle:  writeInt(count)
+EOF: halt
+
+equ zero M[0]
+equ one M[1]
+equ count M[2]
+equ space M[3]
+equ length M[4]
+equ index M[5]
+equ actual M[6]
+equ str M[7]

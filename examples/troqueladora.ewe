@@ -1,0 +1,56 @@
+BOF:
+initialization:
+	zero := 0
+	one := 1
+	two := 2
+	#length is the max index
+	length := 99
+	start := 13
+	undercs := 96
+	index := 0
+	countw := 0
+	countr := 0
+	
+	readStr(str, length)
+cycle:
+	pos := start + index
+	current := M[pos + 0]
+	couple := M[pos + 1]
+	if current = zero then goto endcycle
+
+#if current < undercs -> add to countw
+	if current < undercs then goto addw
+
+#if couple > undercs -> add to countw
+	if couple > undercs then goto addw
+
+#else
+	   countr := countr + one
+	   index := index + two
+	   goto cycle
+addw:
+	countw := countw + one
+	index := index + two
+	goto cycle
+endcycle:
+
+	count := countw + countr
+	writeInt(count)
+	writeInt(countr)
+	writeInt(countw)
+EOF: halt
+
+equ zero M[0]
+equ one M[1]
+equ two M[2]
+equ start M[3]
+equ undercs M[4]
+equ index M[5]
+equ current M[6]
+equ couple M[7]
+equ length M[8]
+equ countw M[9]
+equ countr M[10]
+equ count M[11]
+equ pos M[12]
+equ str M[13]

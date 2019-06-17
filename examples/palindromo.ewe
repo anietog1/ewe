@@ -1,0 +1,63 @@
+BOF:
+initialization:
+	zero := 0
+	one := 1
+	two := 2
+	start := 13
+	length := 10000
+	palength := 0
+	index := 0
+	ans := 1
+start:
+	readStr(str, length)
+countcycle:
+	current := start + index
+	current := M[current + 0]
+	if current = zero then goto countend
+	#else
+	palength := palength + one
+	index := index + one
+	goto countcycle
+countend:
+
+	temp := palength % two
+	#if the length is an odd number, then its not a pal
+	if temp <> zero then goto notpal
+
+	#times the algorythm is going to rum
+	palength := palength / two
+
+	temp := start + palength
+	poscurrent := temp - one
+	poscouple := start + palength
+
+verifycycle:
+	current := M[poscurrent + 0]
+	couple := M[poscouple + 0]
+
+	#this condition aplies for both, its suposed to be paired
+	if couple = zero then goto verifyend
+	#else
+	if current <> couple then goto notpal
+	   poscurrent := poscurrent - one
+	   poscouple := poscouple + one
+	   goto verifycycle
+notpal:	ans := 0
+verifyend:
+	writeInt(ans)
+EOF: halt
+
+equ zero M[0]
+equ one M[1]
+equ index M[2]
+equ current M[3]
+equ couple M[4]
+equ length M[5]
+equ start M[6]
+equ palength M[7]
+equ ans M[8]
+equ temp M[9]
+equ two M[10]
+equ poscurrent M[11]
+equ poscouple M[12]
+equ str M[13]

@@ -1,0 +1,22 @@
+initialization:
+        zero := 0
+        one := 1
+        count := 0
+        sum := 0
+cycle:
+           readInt(x)
+           if x < zero then goto endcycle
+           sum := sum + x
+           count := count + one
+           goto cycle
+
+endcycle:
+        sum := sum / count
+        writeInt(sum)
+EOF: halt
+
+equ zero M[0]
+equ one M[1]
+equ count M[2]
+equ sum M[3]
+equ x M[4]

@@ -1,0 +1,35 @@
+BOF:
+initialization:
+	zero := 0
+	one := 1
+	index := 0
+	start := 8
+	#length is the max possible index
+	length := 10000
+	readStr(desired, zero)
+	readStr(str, length)
+cycle:
+	pos := index + start
+	current := M[pos + 0]
+
+	if current = zero then goto endcycle
+
+	#else
+	if current <> desired then goto jump
+	   #else
+	   writeInt(index)
+jump:
+	index := index + one
+	goto cycle
+endcycle:
+EOF: halt
+
+equ zero M[0]
+equ one M[1]
+equ index M[2]
+equ start M[3]
+equ pos M[4]
+equ current M[5]
+equ desired M[6]
+equ length M[7]
+equ str M[8]

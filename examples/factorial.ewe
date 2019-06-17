@@ -1,0 +1,21 @@
+BOF:
+initialization:
+	zero := 0
+	one := 1
+	fact := 1
+	
+	readInt(n)
+cycle:
+	if n = zero then goto endcycle
+	if n = one then goto endcycle
+	fact := fact * n
+	n := n - one
+	goto cycle
+endcycle:
+	writeInt(fact)
+EOF: halt
+
+equ zero M[0]
+equ one M[1]
+equ n M[2]
+equ fact M[3]

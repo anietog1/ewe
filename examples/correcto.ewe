@@ -1,0 +1,15 @@
+BOF:
+	readInt(a)
+	readInt(b)
+	
+	#next : saltar ya que se incumple el &&
+	if a < zero then goto next
+	   if b > zero then goto condtrue
+next:	     writeInt(b)
+	     goto EOF
+condtrue:  writeInt(a)
+EOF: halt
+
+equ zero M[0]
+equ a M[1]
+equ b M[2]

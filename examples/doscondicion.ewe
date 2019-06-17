@@ -1,0 +1,21 @@
+BOF:
+	zero := 0
+	one := 1
+	ten := 10
+	twenty := 20
+	readInt(a)
+	readInt(b)	
+c1:	if a>=ten then goto sic
+c2:	   if b<=twenty then goto sic
+	      writeInt(zero)
+	      goto EOF
+#sic because sic1 and sic2 were the same
+sic:	writeInt(one)
+EOF: halt
+
+equ a M[0]
+equ b M[1]
+equ one M[2]
+equ zero M[3]
+equ ten M[4]
+equ twenty M[5]

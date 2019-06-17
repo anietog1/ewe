@@ -1,0 +1,22 @@
+BOF:
+	readInt(a)
+	readInt(b)
+	readInt(c)
+
+c1: 	if a<=b then goto sic1
+#Reemplazado goto sic3 por goto sic2, ya que son iguales
+c3:	   if a>=c then goto sic2
+	      writeInt(a)
+	      goto EOF
+#sic3:	writeInt(c)
+#	goto EOF
+sic1:
+c2:	if b>=c then goto sic2
+	   writeInt(b)
+	   goto EOF
+sic2:	writeInt(c)
+EOF: halt
+
+equ a M[0]
+equ b M[1]
+equ c M[2]

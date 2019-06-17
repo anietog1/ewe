@@ -1,0 +1,46 @@
+BOF:
+initialization:
+	zero := 0
+	one := 1
+	space := 32
+	length := 1000
+	strs := 8
+
+	readStr(str, length)
+
+cycle:
+	index := 0
+	temp := strs + index
+	temp := M[temp + 0]
+	if temp <> space then goto endcycle
+	#else
+
+#this cycle is the one that moves every next character one space back
+cycle2:
+	pos := strs + index
+	temp := M[pos + 0]
+	if temp = zero then goto endcycle2
+	   #else
+	   temp := M[pos + 1]
+	   M[pos + 0] := temp
+
+	   index := index + one
+	   goto cycle2
+	   
+endcycle2:
+	pos := pos - one
+	M[pos + 0] := zero
+	goto cycle
+endcycle:
+	writeStr(str)
+EOF: halt
+
+equ zero M[0]
+equ one M[1]
+equ space M[2]
+equ length M[3]
+equ strs M[4]
+equ temp M[5]
+equ index M[6]
+equ pos M[7]
+equ str M[8]

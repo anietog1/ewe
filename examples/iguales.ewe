@@ -1,0 +1,85 @@
+BOF:
+initialization:
+	zero := 0
+	one := 1
+	index := 0
+	length := 1000
+	nsis := 18
+	str1s := 36
+	str2s := 1036
+	N := 78
+	o := 111
+	space := 32
+	s := 115
+	n := 110
+	i := 105
+	g := 103
+	u := 117
+	a := 97
+	l := 108
+	e := 101
+	#dando valores al string "No son iguales"
+	M[nsis + 0] := N
+	M[nsis + 1] := o
+	M[nsis + 2] := space
+	M[nsis + 3] := s
+	M[nsis + 4] := o
+	M[nsis + 5] := n
+	M[nsis + 6] := space
+	M[nsis + 7] := i
+	M[nsis + 8] := g
+	M[nsis + 9] := u
+	M[nsis + 10] := a
+	M[nsis + 11] := l
+	M[nsis + 12] := e
+	M[nsis + 13] := s
+	M[nsis + 14] := zero
+start:
+	readStr(str1, length)
+	readStr(str2, length)
+	
+cycle:
+	current := str1s + index
+	current := M[current + 0]
+	couple := str2s + index
+	couple := M[couple + 0]
+	if current <> couple then goto noiguales
+	#si alguno de los dos es cero pero son iguales ;)
+	if current = zero then goto iguales
+	#else
+	  index := index + one
+	  goto cycle
+endcycle:
+
+noiguales:
+	writeStr(nosoniguales)
+	goto EOF	
+iguales:
+	writeStr(soniguales)
+	goto EOF
+EOF: halt
+
+equ zero M[0]
+equ one M[1]
+equ current M[2]
+equ couple M[3]
+equ index M[4]
+equ length M[5]
+equ N M[6]
+equ o M[7]
+equ space M[8]
+equ s M[9]
+equ n M[10]
+equ i M[11]
+equ g M[12]
+equ u M[13]
+equ a M[14]
+equ l M[15]
+equ e M[16]
+equ nsis M[17]
+equ nosoniguales M[18]
+equ soniguales M[21]
+equ str1s M[34]
+equ str2s M[35]
+equ str1 M[36]
+equ str2 M[1036]

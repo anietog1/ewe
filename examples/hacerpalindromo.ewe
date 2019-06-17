@@ -1,0 +1,47 @@
+BOF:
+initialization:
+	zero := 0
+	one := 1
+	length := 1000
+	strs := 7
+	index := 0
+start:
+	readStr(str, length)
+	
+cycle:
+	temp := strs + index
+	temp := M[temp + 0]
+	
+	if temp = zero then goto endcycle
+	#else
+	index := index + one
+	goto cycle
+endcycle:
+
+	poscoup := strs + index
+	index := index - one
+	
+mkpalcy:
+	if index < zero then goto mkpalend
+	temp := strs + index
+	temp := M[temp + 0]
+	
+	M[poscoup + 0] := temp
+	
+	index := index - one
+	poscoup := poscoup + one
+	goto mkpalcy
+mkpalend:
+
+	M[poscoup + 0] := zero
+	writeStr(str)
+EOF: halt
+
+equ zero M[0]
+equ one M[1]
+equ length M[2]
+equ strs M[3]
+equ index M[4]
+equ temp M[5]
+equ poscoup M[6]
+equ str M[7]

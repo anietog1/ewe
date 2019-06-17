@@ -1,0 +1,24 @@
+BOF:
+initialization:
+	zero := 0
+	one := 1
+
+	readInt(a)
+	readInt(b)
+	readInt(c)
+	readInt(d)
+
+	if a<=b then goto finc
+	   if b<=c then goto finc
+	      if c<=d then goto finc
+	      	 writeInt(one)
+		 goto EOF
+finc:   writeInt(zero)
+EOF: halt
+
+equ a M[0]
+equ b M[1]
+equ c M[2]
+equ d M[3]
+equ one M[4]
+equ zero M[5]

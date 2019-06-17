@@ -1,0 +1,23 @@
+BOF:
+initialization:
+	one := 1
+	count := 0
+	sum := 0
+	readInt(n)
+cycle:
+	if count >= n then goto endcycle
+	   readInt(x)
+	   sum := sum + x
+	   count := count + one
+	   goto cycle
+	   
+endcycle:
+	sum := sum / n
+	writeInt(sum)
+EOF: halt
+
+equ n M[0]
+equ one M[1]
+equ count M[2]
+equ sum M[3]
+equ x M[4]
