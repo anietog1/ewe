@@ -46,9 +46,9 @@
 "["   { return LBRACKET; }
 "]"   { return RBRACKET; }
 
-[_a-zA-Z][_a-zA-Z]* { return IDENTIFIER; }
-
 [0-9]+ { return INTEGER; }
 \"[^\"]*\" { return STRING; }
+
+[_a-zA-Z][_a-zA-Z0-9]* { return IDENTIFIER; }
 
 <<EOF>> { return EOF; }
