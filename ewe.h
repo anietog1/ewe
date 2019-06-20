@@ -83,6 +83,7 @@ ast instrs[EWE_INSTRS_SIZE] = {};
 ast *just(ast_type);
 ast *integer(int *, int);
 ast *string(int *, char *);
+ast *assign(int *, int *);
 ast *op(ast_type, int *, int *, int *);
 ast *_if(ast_type, int *, int *, int);
 ast *_goto(int);
@@ -92,7 +93,7 @@ ast *readstr(int *, int *);
 ast *writestr(int *);
 ast *readpc(int *, int);
 ast *writepc(int *);
-ast *readindex(int *, int);
+ast *readindex(int *, int *, int);
 ast *writeindex(int *, int, int *);
 
 void eval(ast *);

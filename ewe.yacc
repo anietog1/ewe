@@ -20,10 +20,24 @@
 %token HALT BREAK
 %token EQU M LBRACKET RBRACKET
 
+%union {
+  ast_type type;
+  ast *instr;
+  int *memref;
+  int val;
+  char *str;
+}
+
+%type <memref> memref
+%type <val> INTEGER
+%type <instr> instr
+%type <type> condition
+%type <str> IDENTIFIER STRING
+
 %%
 
 eweprog:
-  executable equates
+    executable equates
   ;
 
 executable:
@@ -37,18 +51,18 @@ labeled_instruction:
   ;
 
 instr:
-    memref ASSIGN INTEGER { $$ = integer($3); }
-  | memref ASSIGN STRING  { $$ = string($3);  }
-  | memref ASSIGN PC ADD INTEGER { $$ = pcread($5); }
-  | PC ASSIGN memref     { $$ = pcwrite($3);    }
+    memref ASSIGN INTEGER { $$ = integer($1, $3); }
+  | memref ASSIGN STRING  { $$ = string($1, $3);  }
+  | memref ASSIGN PC ADD INTEGER { $$ = readpc($1, $5); }
+  | PC ASSIGN memref     { $$ = writepc($3);    }
   | memref ASSIGN memref { $$ = assign($1, $3); }
   | memref ASSIGN memref ADD memref { $$ = op(AST_ADD, $1, $3, $5); }
   | memref ASSIGN memref SUB memref { $$ = op(AST_SUB, $1, $3, $5); }
   | memref ASSIGN memref MUL memref { $$ = op(AST_MUL, $1, $3, $5); }
   | memref ASSIGN memref DIV memref { $$ = op(AST_DIV, $1, $3, $5); }
   | memref ASSIGN memref MOD memref { $$ = op(AST_MOD, $1, $3, $5); }
-  | memref ASSIGN M LBRACKET memref ADD INTEGER RBRACKET { $$ = indexwrite($1, $5, $7); }
-  | M LBRACKET memref ADD INTEGER RBRACKET ASSIGN memref { $$ = indexread($3, $5, $8);  }
+  | memref ASSIGN M LBRACKET memref ADD INTEGER RBRACKET { $$ = readindex($1, $5, $7); }
+  | M LBRACKET memref ADD INTEGER RBRACKET ASSIGN memref { $$ = writeindex($3, $5, $8);  }
   | READINT LPAREN memref RPAREN  { $$ = readint($3);  }
   | WRITEINT LPAREN memref RPAREN { $$ = writeint($3); }
   | READSTR LPAREN memref COMMA memref RPAREN { $$ = readstr($3, $5); }
@@ -76,7 +90,7 @@ condition:
   | GT    { $$ = AST_GT;   }
   | LTEQ  { $$ = AST_LTEQ; } 
   | LT    { $$ = AST_LT;   }
-  | EQ    { SS = AST_EQ;   }
+  | EQ    { $$ = AST_EQ;   }
   | DIFF  { $$ = AST_DIFF; }
   ;
 

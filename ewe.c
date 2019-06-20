@@ -88,8 +88,9 @@ ast *writepc(int *src) {
   return tmp;
 }
 
-ast *readindex(int *base, int offset) {
+ast *readindex(int * dest, int *base, int offset) {
   ast *tmp = just(AST_READINDEX);
+  tmp->index_fields.dest = dest;
   tmp->index_fields.base = base;
   tmp->index_fields.offset = offset;
   return tmp;
