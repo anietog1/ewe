@@ -1,5 +1,6 @@
 %{
   #include <stdio.h>
+  #include "ewe.h"
   int yylex(void);
   void yyerror(char *);
   int yywrap(void);
@@ -79,14 +80,14 @@ condition:
 
 %%
 
-int main(void) {
- return yyparse();
-}
-
 void yyerror(char *s) {
   fprintf(stderr, "%s\n", s);
 }
 
 int yywrap(void) {
   return 1;
+}
+
+int main(void) {
+ return yyparse();
 }
