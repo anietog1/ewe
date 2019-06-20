@@ -21,6 +21,13 @@ ast *string(int *dest, char *str) {
   return tmp;
 }
 
+ast *assign(int *dest, int *src) {
+  ast *tmp = just(AST_STRING);
+  tmp->assign_fields.dest = dest;
+  tmp->assign_fields.src = src;
+  return tmp;
+}
+
 ast *op(ast_type type, int *dest, int *a, int *b) {
   ast *tmp = just(type);
   tmp->assign_fields.dest = dest;
@@ -107,6 +114,9 @@ void eval(ast *instr) {
     }
 
     break;
+  case AST_ASSIGN:
+    *(instr->assign_fields.dest) = *(instr->assign_fields.src);
+    break;
   case AST_ADD:
     *(instr->assign_fields.dest) = *(instr->assign_fields.a) + *(instr->assign_fields.b);
     break;
@@ -186,7 +196,7 @@ void eval(ast *instr) {
     *(instr->pc_fields.dest) = pc;
     break;
   case AST_WRITEPC:
-    pc = *(instr->pc_fields.src) + offset;
+    pc = *(instr->pc_fields.src) + instr->pc_fields.offset;
     break;
   case AST_READINDEX:
     *(instr->index_fields.dest) = mem[*(instr->index_fields.base) + instr->index_fields.offset];

@@ -4,6 +4,8 @@
   int yylex(void);
   void yyerror(char *);
   int yywrap(void);
+  int find_id(char *);
+  int find_label(char *);
 %}
 
 %token PC IDENTIFIER
@@ -35,28 +37,28 @@ labeled_instruction:
   ;
 
 instr:
-    memref ASSIGN INTEGER
-  | memref ASSIGN STRING
-  | memref ASSIGN PC ADD INTEGER
-  | PC ASSIGN memref
-  | memref ASSIGN memref
-  | memref ASSIGN memref ADD memref
-  | memref ASSIGN memref SUB memref
-  | memref ASSIGN memref MUL memref
-  | memref ASSIGN memref DIV memref
-  | memref ASSIGN memref MOD memref
-  | memref ASSIGN M LBRACKET memref ADD INTEGER RBRACKET
-  | M LBRACKET memref ADD INTEGER RBRACKET ASSIGN memref
-  | READINT LPAREN memref RPAREN
-  | WRITEINT LPAREN memref RPAREN
-  | READSTR LPAREN memref COMMA memref RPAREN
-  | WRITESTR LPAREN memref RPAREN
-  | GOTO INTEGER
-  | GOTO IDENTIFIER
-  | IF memref condition memref THEN GOTO INTEGER
-  | IF memref condition memref THEN GOTO IDENTIFIER
-  | HALT
-  | BREAK
+    memref ASSIGN INTEGER { $$ = integer($3); }
+  | memref ASSIGN STRING  { $$ = string($3);  }
+  | memref ASSIGN PC ADD INTEGER { $$ = pcread($5); }
+  | PC ASSIGN memref     { $$ = pcwrite($3);    }
+  | memref ASSIGN memref { $$ = assign($1, $3); }
+  | memref ASSIGN memref ADD memref { $$ = op(AST_ADD, $1, $3, $5); }
+  | memref ASSIGN memref SUB memref { $$ = op(AST_SUB, $1, $3, $5); }
+  | memref ASSIGN memref MUL memref { $$ = op(AST_MUL, $1, $3, $5); }
+  | memref ASSIGN memref DIV memref { $$ = op(AST_DIV, $1, $3, $5); }
+  | memref ASSIGN memref MOD memref { $$ = op(AST_MOD, $1, $3, $5); }
+  | memref ASSIGN M LBRACKET memref ADD INTEGER RBRACKET { $$ = indexwrite($1, $5, $7); }
+  | M LBRACKET memref ADD INTEGER RBRACKET ASSIGN memref { $$ = indexread($3, $5, $8);  }
+  | READINT LPAREN memref RPAREN  { $$ = readint($3);  }
+  | WRITEINT LPAREN memref RPAREN { $$ = writeint($3); }
+  | READSTR LPAREN memref COMMA memref RPAREN { $$ = readstr($3, $5); }
+  | WRITESTR LPAREN memref RPAREN { $$ = writestr($3); }
+  | GOTO INTEGER    { $$ = _goto($2); }
+  | GOTO IDENTIFIER { $$ = _goto(find_label($2)); }
+  | IF memref condition memref THEN GOTO INTEGER    { $$ = _if($3, $2, $4, $7); }
+  | IF memref condition memref THEN GOTO IDENTIFIER { $$ = _if($3, $2, $4, find_label($7)); }
+  | HALT  { $$ = just(AST_HALT);  }
+  | BREAK { $$ = just(AST_BREAK); }
   ;
 
 equates:
@@ -65,17 +67,17 @@ equates:
   ;
 
 memref:
-    M LBRACKET INTEGER RBRACKET
-  | IDENTIFIER
+    M LBRACKET INTEGER RBRACKET { $$ = &mem[$3]; }
+  | IDENTIFIER { $$ = &mem[find_id($1)]; }
   ;
 
 condition:
-    GTEQ
-  | GT
-  | LTEQ
-  | LT
-  | EQ
-  | DIFF
+    GTEQ  { $$ = AST_GTEQ; }
+  | GT    { $$ = AST_GT;   }
+  | LTEQ  { $$ = AST_LTEQ; } 
+  | LT    { $$ = AST_LT;   }
+  | EQ    { SS = AST_EQ;   }
+  | DIFF  { $$ = AST_DIFF; }
   ;
 
 %%
@@ -89,5 +91,7 @@ int yywrap(void) {
 }
 
 int main(void) {
- return yyparse();
+  yyparse();
+  run();
+  return 0;
 }

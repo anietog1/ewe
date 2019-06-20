@@ -5,7 +5,7 @@
 #define EWE_INSTRS_SIZE 100000
 
 typedef enum ast_type {
-  AST_INTEGER, AST_STRING,
+  AST_INTEGER, AST_STRING, AST_ASSIGN,
   AST_ADD, AST_SUB, AST_MUL, AST_DIV, AST_MOD,
   AST_GTEQ, AST_LTEQ, AST_DIFF, AST_GT, AST_LT, AST_EQ,
   AST_GOTO, AST_HALT, AST_BREAK,
@@ -29,7 +29,7 @@ typedef struct ast {
           int *a, *b;
         };
 
-        int val;
+        int *src, val;
         char *str;
       };
     } assign_fields;
@@ -90,12 +90,12 @@ ast *readint(int *);
 ast *writeint(int *);
 ast *readstr(int *, int *);
 ast *writestr(int *);
-ast *readpc(int);
+ast *readpc(int *, int);
 ast *writepc(int *);
 ast *readindex(int *, int);
 ast *writeindex(int *, int, int *);
 
-int eval(ast *);
+void eval(ast *);
 void run(void);
 
 #endif /* EWE_H */
