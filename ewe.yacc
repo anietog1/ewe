@@ -4,6 +4,8 @@
 
 %{
   #include <stdio.h>
+  #include <string.h>
+  #include <stdlib.h>
 
   int yylex(void);
   void yyerror(char *);
@@ -56,7 +58,7 @@ executable:
   ;
 
 labeled_instruction:
-    IDENTIFIER COLON labeled_instruction { set_label($1, count); }
+    IDENTIFIER COLON labeled_instruction { set_label($1, count - 1); }
   | instr { instrs[count++] = *$1; free_ast($1); }
   ;
 
@@ -98,7 +100,7 @@ memref:
 condition:
     GTEQ  { $$ = AST_GTEQ; }
   | GT    { $$ = AST_GT;   }
-  | LTEQ  { $$ = AST_LTEQ; } 
+  | LTEQ  { $$ = AST_LTEQ; }
   | LT    { $$ = AST_LT;   }
   | EQ    { $$ = AST_EQ;   }
   | DIFF  { $$ = AST_DIFF; }
@@ -130,8 +132,23 @@ int get_label(char *lbl) {
   return 0;
 }
 
-int main(void) {
+int main(int argc, char **argv) {
+  --argc, ++argv;
+
+  if(argc == 0 || (argc == 1 && strcmp(argv[0], "-h") == 0)) {
+    printf("Usage:\n    ewe FILE");
+    return EXIT_SUCCESS;
+  }
+
+  extern FILE *yyin;
+  yyin = fopen(argv[0], "r");
+
+  if(yyin == NULL) {
+    printf("File not found.");
+    return EXIT_FAILURE;
+  }
+
   yyparse();
   run();
-  return 0;
+  return EXIT_SUCCESS;
 }
