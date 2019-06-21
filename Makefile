@@ -1,4 +1,4 @@
-ewe: ewe.yacc ewe.lex
+ewe: ewe.yacc ewe.lex ewe.c ewe.h
 	yacc -d ewe.yacc
 	lex ewe.lex
 	cc y.tab.c lex.yy.c

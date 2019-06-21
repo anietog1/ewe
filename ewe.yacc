@@ -1,6 +1,9 @@
+%code requires {
+  #include "ewe.h"
+}
+
 %{
   #include <stdio.h>
-  #include "ewe.h"
   int yylex(void);
   void yyerror(char *);
   int yywrap(void);
