@@ -1,3 +1,5 @@
+#include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include "ewe.h"
 
@@ -104,6 +106,14 @@ ast *writeindex(int *base, int offset, int *src) {
   return tmp;
 }
 
+void free_ast(ast *instr) {
+  if(instr->type == AST_STRING) {
+    free(instr->assign_fields.str);
+  }
+
+  free(instr);
+}
+
 void eval(ast *instr) {
   switch(instr->type) {
   case AST_INTEGER:
@@ -173,7 +183,7 @@ void eval(ast *instr) {
     scanf(" %d", instr->io_fields.dest);
     break;
   case AST_WRITEINT:
-    printf("%d\n", *(instr->io_fields.src));
+    printf("%d", *(instr->io_fields.src));
     break;
   case AST_READSTR:
     for(int i = 0; i < *(instr->io_fields.len); ++i) {
@@ -191,7 +201,6 @@ void eval(ast *instr) {
       }
 
       printf("%s", str);
-      return 0;
     }
   case AST_READPC:
     *(instr->pc_fields.dest) = pc;

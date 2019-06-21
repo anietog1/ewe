@@ -46,9 +46,18 @@
 "["   { return LBRACKET; }
 "]"   { return RBRACKET; }
 
-[0-9]+ { return INTEGER; }
-\"[^\"]*\" { return STRING; }
+[0-9]+ { yylval.val = atoi(yytext); return INTEGER; }
 
-[_a-zA-Z][_a-zA-Z0-9]* { return IDENTIFIER; }
+\"[^\"]*\" {
+  yylval.str = (char *) malloc(sizeof(char) * strlen(yytext));
+  strcpy(yylval.str, yytext);
+  return STRING;
+}
+
+[_a-zA-Z][_a-zA-Z0-9]* {
+  yylval.str = (char *) malloc(sizeof(char) * strlen(yytext));
+  strcpy(yylval.str, yytext);
+  return IDENTIFIER;
+}
 
 <<EOF>> { return EOF; }

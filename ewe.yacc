@@ -4,11 +4,18 @@
 
 %{
   #include <stdio.h>
+
   int yylex(void);
   void yyerror(char *);
   int yywrap(void);
-  int find_id(char *);
-  int find_label(char *);
+
+  int get_id(char *);
+  void set_id(char *, int);
+
+  int get_label(char *);
+  void set_label(char *, int);
+
+  int count = 0;
 %}
 
 %token PC IDENTIFIER
@@ -49,8 +56,8 @@ executable:
   ;
 
 labeled_instruction:
-    IDENTIFIER COLON labeled_instruction
-  | instr
+    IDENTIFIER COLON labeled_instruction { set_label($1, count); }
+  | instr { instrs[count++] = *$1; free_ast($1); }
   ;
 
 instr:
@@ -71,21 +78,21 @@ instr:
   | READSTR LPAREN memref COMMA memref RPAREN { $$ = readstr($3, $5); }
   | WRITESTR LPAREN memref RPAREN { $$ = writestr($3); }
   | GOTO INTEGER    { $$ = _goto($2); }
-  | GOTO IDENTIFIER { $$ = _goto(find_label($2)); }
+  | GOTO IDENTIFIER { $$ = _goto(get_label($2)); }
   | IF memref condition memref THEN GOTO INTEGER    { $$ = _if($3, $2, $4, $7); }
-  | IF memref condition memref THEN GOTO IDENTIFIER { $$ = _if($3, $2, $4, find_label($7)); }
+  | IF memref condition memref THEN GOTO IDENTIFIER { $$ = _if($3, $2, $4, get_label($7)); }
   | HALT  { $$ = just(AST_HALT);  }
   | BREAK { $$ = just(AST_BREAK); }
   ;
 
 equates:
-    EQU IDENTIFIER M LBRACKET INTEGER RBRACKET equates
+    EQU IDENTIFIER M LBRACKET INTEGER RBRACKET equates { set_id($2, $5); }
   |
   ;
 
 memref:
     M LBRACKET INTEGER RBRACKET { $$ = &mem[$3]; }
-  | IDENTIFIER { $$ = &mem[find_id($1)]; }
+  | IDENTIFIER { $$ = &mem[get_id($1)]; }
   ;
 
 condition:
@@ -105,6 +112,22 @@ void yyerror(char *s) {
 
 int yywrap(void) {
   return 1;
+}
+
+void set_id(char *id, int index) {
+  /* :( */
+}
+
+int get_id(char *id) {
+  return 0;
+}
+
+void set_label(char *id, int index) {
+  /* :( */
+}
+
+int get_label(char *lbl) {
+  return 0;
 }
 
 int main(void) {

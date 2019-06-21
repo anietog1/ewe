@@ -76,9 +76,9 @@ typedef struct ast {
   };
 } ast;
 
-int pc = 0;
-int mem[EWE_MEM_SIZE] = {};
-ast instrs[EWE_INSTRS_SIZE] = {};
+int pc;
+int mem[EWE_MEM_SIZE];
+ast instrs[EWE_INSTRS_SIZE];
 
 ast *just(ast_type);
 ast *integer(int *, int);
@@ -95,6 +95,8 @@ ast *readpc(int *, int);
 ast *writepc(int *);
 ast *readindex(int *, int *, int);
 ast *writeindex(int *, int, int *);
+
+void free_ast(ast *);
 
 void eval(ast *);
 void run(void);
