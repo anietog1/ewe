@@ -1,0 +1,4 @@
+M[0] := 5
+readStr(M[1], M[0])
+writeStr(M[1])
+halt

@@ -1,0 +1,7 @@
+M[0] := 0
+writeInt(M[0])
+M[0] := 1
+writeInt(M[0])
+M[0] := 2
+writeInt(M[0])
+halt
