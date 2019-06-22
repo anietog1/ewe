@@ -58,8 +58,8 @@ executable:
   ;
 
 labeled_instruction:
-    IDENTIFIER COLON labeled_instruction { set_label($1, count - 1); }
-  | instr { instrs[count++] = *$1; free_ast($1); }
+    IDENTIFIER COLON labeled_instruction { set_label($1, count); }
+  | instr { instrs[count++] = *$1; free($1); }
   ;
 
 instr:
@@ -79,9 +79,9 @@ instr:
   | WRITEINT LPAREN memref RPAREN { $$ = writeint($3); }
   | READSTR LPAREN memref COMMA memref RPAREN { $$ = readstr($3, $5); }
   | WRITESTR LPAREN memref RPAREN { $$ = writestr($3); }
-  | GOTO INTEGER    { $$ = _goto($2); }
+  | GOTO INTEGER    { $$ = _goto($2 - 1); }
   | GOTO IDENTIFIER { $$ = _goto(get_label($2)); }
-  | IF memref condition memref THEN GOTO INTEGER    { $$ = _if($3, $2, $4, $7); }
+  | IF memref condition memref THEN GOTO INTEGER    { $$ = _if($3, $2, $4, $7 - 1); }
   | IF memref condition memref THEN GOTO IDENTIFIER { $$ = _if($3, $2, $4, get_label($7)); }
   | HALT  { $$ = just(AST_HALT);  }
   | BREAK { $$ = just(AST_BREAK); }
@@ -148,7 +148,10 @@ int main(int argc, char **argv) {
     return EXIT_FAILURE;
   }
 
-  yyparse();
+  if(yyparse() != 0) {
+    return EXIT_FAILURE;
+  }
+
   run();
   return EXIT_SUCCESS;
 }

@@ -120,10 +120,15 @@ void eval(ast *instr) {
     *(instr->assign_fields.dest) = instr->assign_fields.val;
     break;
   case AST_STRING:
-    for(int i = 0; instr->assign_fields.str[i] != '\0'; ++i) {
-      instr->assign_fields.dest[i] = instr->assign_fields.str[i];
-    }
+    {
+      int i;
+      for(i = 0; instr->assign_fields.str[i] != '\0'; ++i) {
+	instr->assign_fields.dest[i] = instr->assign_fields.str[i];
+      }
 
+      instr->assign_fields.dest[i] = '\0';
+
+    }
     break;
   case AST_ASSIGN:
     *(instr->assign_fields.dest) = *(instr->assign_fields.src);
@@ -190,16 +195,18 @@ void eval(ast *instr) {
       instr->io_fields.dest[i] = getchar();
     }
 
-    instr->io_fields.dest[*(instr->io_fields.len)] = '\0';
+    instr->io_fields.dest[*(instr->io_fields.len)] = (int) '\0';
     break;
   case AST_WRITESTR:
     {
-      char str[EWE_MEM_SIZE / (sizeof(int) / sizeof(char))] = {};
+      char str[EWE_MEM_SIZE] = {};
 
-      for(int i = 0; instr->io_fields.src[i] != '\0'; ++i) {
-        str[i] = (char) instr->io_fields.src[i];
+      int i;
+      for(i = 0; instr->io_fields.src[i] != '\0'; ++i) {
+	str[i] = (char) instr->io_fields.src[i];
       }
 
+      str[i] = '\0';
       printf("%s", str);
     }
   case AST_READPC:

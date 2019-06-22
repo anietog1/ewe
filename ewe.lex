@@ -49,13 +49,16 @@
 [0-9]+ { yylval.val = atoi(yytext); return INTEGER; }
 
 \"[^\"]*\" {
-  yylval.str = (char *) malloc(sizeof(char) * strlen(yytext));
-  strcpy(yylval.str, yytext);
+  int n = strlen(yytext);
+  yylval.str = (char *) malloc(sizeof(char) * (n - 2 + 1)); /* ignore quotes, add null character */
+  strncpy(yylval.str, yytext + 1, n - 2); /* ignore quotes */
+  yylval.str[n - 2 + 1] = '\0';
   return STRING;
 }
 
 [_a-zA-Z][_a-zA-Z0-9]* {
-  yylval.str = (char *) malloc(sizeof(char) * strlen(yytext));
+  int n =  strlen(yytext) + 1;
+  yylval.str = (char *) malloc(sizeof(char) * n);
   strcpy(yylval.str, yytext);
   return IDENTIFIER;
 }

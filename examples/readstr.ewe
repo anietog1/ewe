@@ -1,4 +1,8 @@
-M[0] := 5
+M[1000] := "insert string's length: "
+M[2000] := "insert string: "
+writeStr(M[1000])
+readInt(M[0])
+writeStr(M[2000])
 readStr(M[1], M[0])
 writeStr(M[1])
 halt
