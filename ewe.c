@@ -191,11 +191,17 @@ void eval(ast *instr) {
     printf("%d", *(instr->io_fields.src));
     break;
   case AST_READSTR:
-    for(int i = 0; i < *(instr->io_fields.len); ++i) {
-      instr->io_fields.dest[i] = getchar();
-    }
+    {
+      int c = getchar();
 
-    instr->io_fields.dest[*(instr->io_fields.len)] = (int) '\0';
+      int i;
+      for(i = 0; i < *(instr->io_fields.len) && c != EOF; ++i) {
+        instr->io_fields.dest[i] = c;
+        c = getchar();
+      }
+
+      instr->io_fields.dest[i] = (int) '\0';
+    }
     break;
   case AST_WRITESTR:
     {
@@ -209,6 +215,7 @@ void eval(ast *instr) {
       str[i] = '\0';
       printf("%s", str);
     }
+    break;
   case AST_READPC:
     *(instr->pc_fields.dest) = pc;
     break;

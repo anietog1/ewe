@@ -59,7 +59,7 @@ executable:
 
 labeled_instruction:
     IDENTIFIER COLON labeled_instruction { set_label($1, count); }
-  | instr { instrs[count++] = *$1; free($1); }
+  | instr { instrs[count++] = *$1; free($1); } /* free instead of free_ast as we need the string pointer */
   ;
 
 instr:
