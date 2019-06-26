@@ -184,6 +184,9 @@ void eval(ast *instr) {
     }
 
     break;
+  case AST_GOTO:
+    pc = instr->goto_fields.dest;
+    break;
   case AST_READINT:
     scanf(" %d", instr->io_fields.dest);
     break;
