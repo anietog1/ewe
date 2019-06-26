@@ -149,8 +149,11 @@ int main(int argc, char **argv) {
   }
 
   if(yyparse() != 0) {
+    fclose(yyin);
     return EXIT_FAILURE;
   }
+
+  fclose(yyin);
 
   run();
   return EXIT_SUCCESS;
