@@ -1,0 +1,6 @@
+M[0] := "*"
+M[1] := 10
+writeStr(M[0])
+break
+goto 3
+halt
