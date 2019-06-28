@@ -4,7 +4,7 @@
 #include "ewe.h"
 
 ast *just(ast_type type) {
-  ast *tmp = (ast *) malloc(sizeof(ast));
+  ast *tmp = malloc(sizeof(ast));
   tmp->type = type;
   return tmp;
 }
@@ -203,7 +203,7 @@ void eval(ast *instr) {
         c = getchar();
       }
 
-      instr->io_fields.dest[i] = (int) '\0';
+      instr->io_fields.dest[i] = '\0';
     }
     break;
   case AST_WRITESTR:
@@ -212,7 +212,7 @@ void eval(ast *instr) {
 
       int i;
       for(i = 0; instr->io_fields.src[i] != '\0'; ++i) {
-	str[i] = (char) instr->io_fields.src[i];
+	str[i] = instr->io_fields.src[i];
       }
 
       str[i] = '\0';
@@ -242,7 +242,7 @@ void eval(ast *instr) {
 }
 
 void run(void) {
-  memset(mem, 0, EWE_MEM_SIZE);
+  memset(mem, 0, sizeof(mem));
   pc = 0;
   while(instrs[pc].type != AST_HALT) {
     eval(&instrs[pc++]);

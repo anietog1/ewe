@@ -7,6 +7,35 @@
   #include <string.h>
   #include <stdlib.h>
 
+  typedef struct pair {
+    char *id;
+    int val;
+  } pair;
+
+  #define IDVALUES_SIZE 1000
+  #define LABELVALUES_SIZE 1000
+
+  pair idvalues[IDVALUES_SIZE];
+  int idvaluescnt = 0;
+  pair labelvalues[LABELVALUES_SIZE];
+  int labelvaluescnt = 0;
+
+  int paircmp(const void *a, const void *b) {
+    return strcmp(((pair *) a)->id, ((pair *) b)->id);
+  }
+
+  pair *new_pair(char *id, int val) {
+    pair *tmp = malloc(sizeof(pair));
+    tmp->id = id;
+    tmp->val = val;
+    return tmp;
+  }
+
+  void free_pair(pair *p) {
+    free(p->id);
+    free(p);
+  }
+
   int yylex(void);
   void yyerror(char *);
   int yywrap(void);
@@ -17,7 +46,7 @@
   int get_label(char *);
   void set_label(char *, int);
 
-  int count = 0;
+  int instrscnt = 0;
 %}
 
 %token PC IDENTIFIER
@@ -58,8 +87,8 @@ executable:
   ;
 
 labeled_instruction:
-    IDENTIFIER COLON labeled_instruction { set_label($1, count); }
-  | instr { instrs[count++] = *$1; free($1); } /* free instead of free_ast as we need the string pointer */
+    IDENTIFIER COLON labeled_instruction { set_label($1, instrscnt); }
+  | instr { instrs[instrscnt++] = *$1; free($1); } /* free instead of free_ast as we need the string pointer */
   ;
 
 instr:
@@ -89,7 +118,7 @@ instr:
 
 equates:
     EQU IDENTIFIER M LBRACKET INTEGER RBRACKET equates { set_id($2, $5); }
-  |
+  | { qsort(idvalues, idvaluescnt, sizeof(pair), paircmp); }
   ;
 
 memref:
@@ -116,16 +145,24 @@ int yywrap(void) {
   return 1;
 }
 
-void set_id(char *id, int index) {
-  /* :( */
+void set_id(char *id, int val) {
+  idvalues[idvaluescnt].id = id;
+  idvalues[idvaluescnt].val = val;
+  ++idvaluescnt;
 }
 
 int get_id(char *id) {
-  return 0;
+  pair key;
+  key.id = id;
+
+  pair *found = bsearch(&key, idvalues, idvaluescnt, sizeof(pair), paircmp);
+  return found->val;
 }
 
-void set_label(char *id, int index) {
-  /* :( */
+void set_label(char *id, int val) {
+  labelvalues[labelvaluescnt].id = id;
+  labelvalues[labelvaluescnt].val = val;
+  ++labelvaluescnt;
 }
 
 int get_label(char *lbl) {
