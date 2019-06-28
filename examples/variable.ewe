@@ -1,0 +1,5 @@
+a := 10
+writeInt(a)
+writeStr(a)
+halt
+equ M[0] a
